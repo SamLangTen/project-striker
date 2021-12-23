@@ -53,6 +53,7 @@ continueCount = 0
 continueRemain = 0
 continueEnabled = True
 allCleared = False
+cheatEnabled = False
 
 bossRemain = 0
 bossHitpointRangeMin = 0

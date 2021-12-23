@@ -2,6 +2,8 @@ import typing
 import pygame
 import random
 
+from . import Hitbox
+
 import lib.sprite
 import lib.sprite.player
 import lib.sound
@@ -40,6 +42,7 @@ class PlayerOption(lib.sprite.Sprite):
         self.offsetSlow = offsetSlow
         self.angleNormal = angleNormal
         self.angleSlow = angleSlow
+        self.hitbox = (Hitbox(pygame.Vector2(0, 0), 1),)
         self.shootWait = 0
 
     @property

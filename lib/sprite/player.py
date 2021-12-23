@@ -70,6 +70,15 @@ class Player(Sprite):
     def update(self) -> None:
         self.speed.update(0, 0)
 
+        if lib.globals.keys[pygame.K_c] and not lib.globals.keysLastFrame[pygame.K_c]:
+            lib.globals.cheatEnabled = not lib.globals.cheatEnabled
+
+        if lib.globals.keys[pygame.K_o] and not lib.globals.keysLastFrame[pygame.K_o]:
+            for s in lib.globals.groupEnemy:
+                s: lib.sprite.enemy.Enemy
+                lib.globals.score += s.hitpoint * (8 + lib.globals.maxGetPoint % 16)
+                s.hitpoint = 0
+
         if self.deathWait:
             self.deathWait -= 1
             if not self.deathWait:

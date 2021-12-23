@@ -85,7 +85,19 @@ class Enemy(lib.sprite.Sprite):
             for h in self.hitboxAbsolute:
                 for g in s.hitboxAbsolute:
                     if (h.offset - g.offset).length() < h.size + g.size:
-                        s.explode()
+                        if not lib.globals.cheatEnabled:
+                            s.explode()
+                        else:
+                            lib.globals.score += self.hitpoint * (8 + lib.globals.maxGetPoint % 16)
+                            self.hitpoint = 0
+        
+        if lib.globals.cheatEnabled:
+            for o in lib.globals.groupPlayerOption:
+                for h in self.hitboxAbsolute:
+                    for g in o.hitboxAbsolute:
+                        if (h.offset - g.offset).length() < h.size + g.size:
+                            lib.globals.score += self.hitpoint * (8 + lib.globals.maxGetPoint % 16)
+                            self.hitpoint = 0
 
         if self.scriptEngine:
             if self.scriptEngine.pointerRangeBreak and self.hitpoint < lib.globals.bossHitpointRangeMin:

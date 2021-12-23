@@ -102,6 +102,9 @@ def draw(surface: pygame.Surface):
 
     for text, (posX, posY) in (
         (f'Continue×{lib.globals.continueCount}' if lib.globals.continueCount else str(lib.globals.score), (1248, 76)),
+        (
+            'cheat mode' if lib.globals.cheatEnabled else '', (1248,20)
+        ),
         (str(lib.globals.maxGetPoint), (1248, 316)),
         (str(lib.globals.grazeCount), (1248, 376)),
         (str(len(lib.globals.groupEnemyBullet)), (1248, 466)),

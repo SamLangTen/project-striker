@@ -34,7 +34,7 @@ class EnemyBullet(lib.bullet.Bullet):
         super().update(*args, **kwargs)
 
         s: lib.sprite.player.Player = lib.globals.groupPlayer.sprite
-        if not s.deathWait:
+        if not s.deathWait and not lib.globals.cheatEnabled:
             for h in s.hitboxAbsolute:
                 distance = (h.offset - self.position).length() - h.size - self.size
                 if distance < 0:
