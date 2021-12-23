@@ -20,7 +20,7 @@ jobs:
         os:
           - windows-latest
           - ubuntu-latest
-          # - macos-latest
+          - macos-latest
     steps:
       - uses: actions/checkout@v2
       - name: Setup Python
@@ -42,7 +42,7 @@ jobs:
         run: |
           mkdir .font
           curl \
-            https://mirrors.cloud.tencent.com/adobe-fonts/source-han-serif/OTF/SimplifiedChinese/SourceHanSerifSC-Medium.otf \
+            https://raw.githubusercontent.com/adobe-fonts/source-han-serif/release/OTF/SimplifiedChinese/SourceHanSerifSC-Medium.otf \
             --no-progress-meter \
             --output .font/SourceHanSerifSC-Medium.otf
       - name: Generate font subset
@@ -64,7 +64,7 @@ jobs:
           elif [ "$RUNNER_OS" == "Linux" ]; then
             ext=""
           elif [ "$RUNNER_OS" == "macOS" ]; then
-            ext=""
+            ext=".zip"
           fi
           echo "::set-output name=ext::${ext}"
           echo "::set-output name=executableName::striker-$(date +%Y%m%d-%H%M%S)-$(git rev-parse --short HEAD)-${{ runner.os }}${ext}"
@@ -74,7 +74,13 @@ jobs:
             export pyiSeparator=";"
           fi
           bash build.sh
-          mv dist/striker${{ steps.vars.outputs.ext }} dist/${{ steps.vars.outputs.executableName }}
+          if [ "$RUNNER_OS" == "macOS" ]; then
+            cd dist
+            zip -r9 ${{ steps.vars.outputs.executableName }} striker.app
+            cd ..
+          else
+            mv dist/striker${{ steps.vars.outputs.ext }} dist/${{ steps.vars.outputs.executableName }}
+          fi
           ls -l dist
           openssl sha256 dist/${{ steps.vars.outputs.executableName }}
       - name: Upload result
